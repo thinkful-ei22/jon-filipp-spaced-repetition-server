@@ -1,6 +1,6 @@
 'use strict';
 
-//to connect mlab database, use this to require mlab link from dotenv. Also, run npm -i --save dovenv
+//to connect mlab database, use this to require mlab link from dotenv. Also, run npm -i --save dotenv
 require('dotenv').config();
 
 module.exports = {
