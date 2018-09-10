@@ -28,6 +28,7 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 
 
+
 app.use(
   cors({
     origin: CLIENT_ORIGIN
