@@ -11,7 +11,8 @@ const UserSchema = new mongoose.Schema({
     require: true,
     unique: true
   },
-  password: {type: String, required: true}
+  password: {type: String, required: true},
+  questions: {type: Array}
 });
 
 UserSchema.methods.serialize = function() {

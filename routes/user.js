@@ -83,6 +83,12 @@ router.post('/', (req, res) => {
   let {username, password, firstName = '', lastName = ''} = req.body;
   firstName = firstName.trim();
   lastName = lastName.trim();
+  const questions = [
+    {question: 'Hola', answer: 'hello'},
+    {question: 'Amigo', answer: 'friend'},
+    {question: 'Muchacho', answer: 'boy'},
+    {question: 'Comida', answer: 'food'}
+  ];
 
   return User.find({username})
     .count()
@@ -104,7 +110,8 @@ router.post('/', (req, res) => {
         username,
         password: hash,
         firstName,
-        lastName
+        lastName,
+        questions
       });
     })
     .then(user => {

@@ -13,6 +13,7 @@ const localStrategy = require('./passport/local');
 
 const userRouter = require('./routes/user');
 const authRouter = require('./routes/auth');
+const questionRouter = require('./routes/questions');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use(
 
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/questions', questionRouter);
 
 function runServer(port = PORT) {
   const server = app
