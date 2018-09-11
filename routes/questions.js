@@ -23,7 +23,7 @@ router.get('/', (req, res, next) => {
     .catch(err => {
       next(err);
     });
-  if (counter === 3) {
+  if (counter === 9) {
     counter = 0;
   } else {
     counter ++;

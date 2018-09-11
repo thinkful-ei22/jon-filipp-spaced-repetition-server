@@ -86,8 +86,14 @@ router.post('/', (req, res) => {
   const questions = [
     {question: 'Hola', answer: 'hello'},
     {question: 'Amigo', answer: 'friend'},
-    {question: 'Muchacho', answer: 'boy'},
-    {question: 'Comida', answer: 'food'}
+    {question: 'Niño', answer: 'boy'},
+    {question: 'Comida', answer: 'food'},
+    {question: 'Padre', answer: 'father'},
+    {question: 'Madre', answer: 'mother'},
+    {question: 'Noche', answer: 'night'},
+    {question: 'Adiós', answer: 'bye'},
+    {question: 'Niña', answer: 'girl'},
+    {question: 'Agua', answer: 'water'}
   ];
 
   return User.find({username})
