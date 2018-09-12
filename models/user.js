@@ -12,7 +12,13 @@ const UserSchema = new mongoose.Schema({
     unique: true
   },
   password: {type: String, required: true},
-  questions: {type: Array}
+  questions: [
+    {
+      question: {type: String},
+      answer: {type: String},
+      mVal: {type: Number, default: 1}
+    }
+  ]
 });
 
 UserSchema.methods.serialize = function() {
