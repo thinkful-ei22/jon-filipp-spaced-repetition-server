@@ -58,26 +58,30 @@ router.put('/', (req, res, next) => {
   //console.log('PUT but after',JSON.stringify(questionList, null, 2));
   
   if (result === true) {
-    User.update({username},
-      { $inc:
-        {
-          correct: 1,
-        }}
-    );
+    User.findOneAndUpdate(
+      {username},
+      {$inc : {correct: 1, total: 1}},
+      {new : true}
+    )
+      .then(response => {
+        res.json(response);
+      })
+      .catch(err => {
+        next(err);
+      });
+  } else {
+    User.findOneAndUpdate(
+      {username},
+      {$inc : {total: 1}},
+      {new : true}
+    )
+      .then(response => {
+        res.json(response);
+      })
+      .catch(err => {
+        next(err);
+      });
   }
-
-  User.update({username},
-    { $inc:
-      {
-        total: 1
-      }}
-  )
-    .then(() => {
-      res.status(204).end();
-    })
-    .catch(err => {
-      next(err);
-    });
 });
 
 module.exports = router;
