@@ -6,12 +6,6 @@ const LinkedList = require('../data-structures/linked-list-class');
 
 const router = express.Router();
 
-// const questions = [
-//   {question: 'Hola', answer: 'hello'},
-//   {question: 'Amigo', answer: 'friend'},
-//   {question: 'Muchacho', answer: 'boy'},
-//   {question: 'Comida', answer: 'food'}
-// ];
 
 
 const linkedListContainer = {};
@@ -23,7 +17,7 @@ router.get('/:username', (req, res, next) => {
   User.find({'username': username}, {'questions' : 'question' })
     .then( result => {
       if (!(username in linkedListContainer)) {
-        console.log('create linked list running');
+        
         linkedListContainer[`${username}`] = new LinkedList();
         result[0].questions.forEach((item) => {
           linkedListContainer[`${username}`].insertLast(item);
@@ -31,22 +25,18 @@ router.get('/:username', (req, res, next) => {
       }
       
       res.json(linkedListContainer[`${username}`].head.value);
-      // console.log('containter', JSON.stringify(linkedListContainer, null, 2));
+      
     })
     .catch(err => {
       next(err);
     });
 });
 
-// { mVal: 1,
-//   _id: 5b995c666343db159423d8de,
-//   question: 'Hola',
-//   answer: 'hello' }
 
 router.put('/', (req, res, next) => {
   const { result, username} = req.body;
   let questionList = linkedListContainer[`${username}`];
-  //console.log('list inside the put',JSON.stringify(questionList, null, 2));
+  
   if (result === true) {
     questionList.head.value.mVal = questionList.head.value.mVal * 2;
     questionList.spaceQuestion(questionList.head.value.mVal);
@@ -82,6 +72,31 @@ router.put('/', (req, res, next) => {
         next(err);
       });
   }
+});
+
+router.put('/update', (req, res, next) => {
+  const { username } = req.body;
+  let questionList = linkedListContainer[`${username}`];
+  //console.log('list in update', JSON.stringify(questionList, null, 2));
+  const tempArray = [];
+  let currNode = questionList.head;
+  while (currNode.next !== null) {
+    tempArray.push(currNode.value);
+    currNode = currNode.next;
+  }
+  User.update(
+    {username},
+    {questions: tempArray})
+    .then(() => {
+      linkedListContainer[`${username}`] = null;
+    })
+    .then(() => {
+      res.status(204).end();
+    })
+    .catch(err => {
+      next(err);
+    });
+
 });
 
 module.exports = router;
