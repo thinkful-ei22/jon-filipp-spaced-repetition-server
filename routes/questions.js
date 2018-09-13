@@ -44,8 +44,7 @@ router.get('/:username', (req, res, next) => {
 //   answer: 'hello' }
 
 router.put('/', (req, res, next) => {
-  const { result, username, correct, total } = req.body;
-  console.log('RESULT', total);
+  const { result, username} = req.body;
   let questionList = linkedListContainer[`${username}`];
   //console.log('list inside the put',JSON.stringify(questionList, null, 2));
   if (result === true) {
@@ -57,17 +56,24 @@ router.put('/', (req, res, next) => {
   }
 
   //console.log('PUT but after',JSON.stringify(questionList, null, 2));
-  res.status(204).end();
   
+  if (result === true) {
+    User.update({username},
+      { $inc:
+        {
+          correct: 1,
+        }}
+    );
+  }
+
   User.update({username},
-    { $set:
+    { $inc:
       {
-        correct: correct,
-        total: total,
+        total: 1
       }}
   )
     .then(() => {
-      return User.findOne({username});
+      res.status(204).end();
     })
     .catch(err => {
       next(err);
