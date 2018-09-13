@@ -12,11 +12,14 @@ const UserSchema = new mongoose.Schema({
     unique: true
   },
   password: {type: String, required: true},
+  correct: {type: Number, default: 0},
+  total: {type: Number, default: 0},
+
   questions: [
     {
       question: {type: String},
       answer: {type: String},
-      mVal: {type: Number, default: 1}
+      mVal: {type: Number, default: 1},
     }
   ]
 });

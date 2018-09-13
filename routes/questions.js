@@ -31,7 +31,7 @@ router.get('/:username', (req, res, next) => {
       }
       
       res.json(linkedListContainer[`${username}`].head.value);
-      console.log('containter', JSON.stringify(linkedListContainer, null, 2));
+      // console.log('containter', JSON.stringify(linkedListContainer, null, 2));
     })
     .catch(err => {
       next(err);
@@ -44,7 +44,8 @@ router.get('/:username', (req, res, next) => {
 //   answer: 'hello' }
 
 router.put('/', (req, res, next) => {
-  const { result, username } = req.body;
+  const { result, username, correct, total } = req.body;
+  console.log('RESULT', total);
   let questionList = linkedListContainer[`${username}`];
   //console.log('list inside the put',JSON.stringify(questionList, null, 2));
   if (result === true) {
@@ -54,9 +55,23 @@ router.put('/', (req, res, next) => {
     questionList.head.value.mVal = 1;
     questionList.spaceQuestion(questionList.head.value.mVal);
   }
+
   //console.log('PUT but after',JSON.stringify(questionList, null, 2));
   res.status(204).end();
-
+  
+  User.update({username},
+    { $set:
+      {
+        correct: correct,
+        total: total,
+      }}
+  )
+    .then(() => {
+      return User.findOne({username});
+    })
+    .catch(err => {
+      next(err);
+    });
 });
 
 module.exports = router;
