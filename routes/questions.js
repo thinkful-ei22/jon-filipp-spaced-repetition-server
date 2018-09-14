@@ -88,7 +88,7 @@ router.put('/update', (req, res, next) => {
     {username},
     {questions: tempArray})
     .then(() => {
-      linkedListContainer[`${username}`] = null;
+      delete linkedListContainer[`${username}`];
     })
     .then(() => {
       res.status(204).end();
